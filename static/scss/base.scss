@@ -1,0 +1,93 @@
+
+$defaultSize: 75 !default;
+@function rem($px){
+    @return $px / $defaultSize * 1rem;
+}
+@font-face{
+    font-family: 'comic';
+    src: url('/static/fonts/COMIC.TTF'); //开发环境
+    // src: url('/library/static/fonts/COMIC.TTF'); //线上环境
+}
+$color1: #ff8003;
+$white: #FFFFFF;
+
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td { 
+    padding: 0; 
+    margin: 0; 
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+li{
+    list-style: none;
+}
+img,button,input,textarea{
+    border: none;
+    outline: none;
+}
+img{
+    max-width: 100%;
+    max-height: 100%;
+    vertical-align: top;
+}
+a{
+    text-decoration: none;
+}
+html,body{
+    font-size: 10vw;
+    font-family: 'Avenir', Helvetica, "Microsoft YaHei", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased; //抗锯齿
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-text-size-adjust:none
+    
+};
+#app{
+    font-size: rem(30);
+    min-height: 100vh;
+}
+.wp100{
+    width: 100%;
+}
+.hp100{
+    height: 100%;
+}
+.fontComic{
+    font-family: "comic";
+}
+.tac{
+    text-align: center;
+}
+.pos_r{
+    position: relative;
+}
+.fl{
+    float: left;
+}
+.fr{
+    float: right;
+}
+.textStyle{
+    text-align: center;
+    p{
+        text-align: left;
+        display: inline-block;
+    }
+}
+
+.ofh{
+    overflow: hidden;
+}
+
+//文本溢出省略号显示
+@mixin ellipsis($line:1){
+  @if $line==1 {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    @else {
+        display: -webkit-box;
+        -webkit-line-clamp: $line;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}

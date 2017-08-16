@@ -1,0 +1,179 @@
+@import './base.scss';
+.bookback{
+    overflow: hidden;
+    .backBtn{
+        width: rem(122);
+        height: rem(52);
+        border-radius: rem(20);
+        margin: rem(20) rem(16) rem(23);
+        background: #ff5a00;
+        color: #FFF;
+        box-shadow: 0 rem(8) #c14400;
+        position: relative;
+        img{
+            display: block;
+            width: rem(19);
+            height: rem(31);
+            margin-top: rem(11);
+            margin-left: rem(14);
+        }
+        p{
+            width: 100%;
+            height: rem(52);
+            position: absolute;
+            top: 0;
+            right: 0;
+            z-index: 1;
+            line-height: rem(55);
+            text-indent: rem(42);
+            font-size: rem(30);
+        }
+    }
+}
+.bookIntroduce{
+    background: #ffc927;
+    min-height: 100vh;
+    .introduceTop{
+        .inLeft{
+            width: rem(280);
+            height: rem(218);
+            margin-left: rem(22);
+            // margin-top: rem(12);
+            // background: red;
+            .bookFm{
+                width: rem(260);
+                height: rem(196);
+                padding: rem(10);
+            }
+            .bookMark2{
+                width: rem(293);
+                height: rem(250);
+                display: block;
+                position: absolute;
+                top: rem(0);
+                left: rem(0);
+                z-index: 1;
+            }
+        }
+        .bookTitle{
+            width: rem(390);
+            // height: rem(240);
+            // padding-top: rem(30);
+            margin: rem(0) rem(10) rem(26) rem(40);
+            // overflow: hidden;
+            h1{
+                font-size: rem(36);
+                font-family: "comic";
+                line-height: rem(48);
+                color: #6f1500;
+                overflow:hidden; 
+                text-overflow:ellipsis;
+                display:-webkit-box; 
+                -webkit-box-orient:vertical;
+                -webkit-line-clamp:2; 
+            }
+            .dctm{
+                margin-top: rem(10);
+                font-size: rem(22);
+                color: #6f1500;
+                span{
+                    margin-right: rem(36)
+                }
+            }
+            .startRead{
+                margin-top: rem(36);
+                width: rem(350);
+                height: rem(62);
+                line-height: rem(66);
+                display: block;
+                color: $white;
+                text-align: center;
+                font-size: rem(34);
+                letter-spacing: rem(6);
+                border-radius: rem(38);
+                background: #ff5a00;
+                box-shadow: 0 rem(8) 0 0 #c34500;
+            }
+            .stopRead{
+                background: #d3b5a4;
+                box-shadow: 0 rem(8) 0 0 #be9a86;
+
+            }
+        }
+    }
+    .introduceMain{
+        margin-top: rem(24);
+        .ci{
+            width: rem(580);
+            height: rem(74);
+            line-height: rem(90);
+            margin: 0 auto;
+            color: #6f1500;
+            &.mgt20{
+                margin-top: rem(16);
+            }
+            .disc{
+                width: rem(11);
+                height: rem(11);
+                border-radius: rem(100);
+                display: inline-block;
+                background: #ff8003;
+                vertical-align: middle;
+                margin-top: rem(-9);
+            }
+            .name{
+                margin-left: rem(12);
+                display: inline-block;
+            }
+        }
+        .ciText{
+            width: rem(580);
+            margin: 0 auto;
+            font-family: "comic";
+            color: #6f1500;
+        }
+        .top{
+            width: rem(750);
+            height: rem(202);
+            background: url("/static/img/targetTop.png") no-repeat;
+            background-size: 100% 100%; 
+            h3{
+                margin-top: rem(64);
+                margin-left: rem(150);
+                font-size: rem(34);
+                color: #6f1500;
+            }
+        }
+        .main{
+            width: rem(750);
+            height: auto;
+            padding-bottom: rem(60);
+            background: url("/static/img/targetBottom.png") no-repeat;
+            background-size: 100% 100%; 
+        }
+    }
+    .noNum{
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 100;
+        background: rgba(0, 0, 0, 0.6);
+        img{
+            width: rem(750);
+            height: rem(363);
+            position: fixed;
+            top: rem(500);
+        }
+        .colse{
+            width: rem(152);
+            height: rem(66);
+            border-radius: rem(50);
+            position: fixed;
+            top: rem(798);
+            right: rem(72);
+            z-index: 101;    
+        }
+    }
+}
