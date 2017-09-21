@@ -1,11 +1,10 @@
 <template lang="pug">
     .home.pos_r.ofh(@click="hideTabList")
-        transition(name="fade" mode="")
-            section.loading(v-show="loading")
-                img(src="/static/img/loading.gif")
+        loading
+        v-book-rule
         section.top
-            .dakaRule
-                img(src="/static/img/img01.png")
+            .dakaRule(@click="ruleOpen")
+                img(src="../../static/img/img01.png")
             p.dakaRuleText 打卡规则
             .headImg.ofh
                 img(:src="headimgurl")
@@ -13,10 +12,11 @@
         section.main
             .studyStatus.tac.ofh
                 .wp50.fl
-                    p.sTop 完成
+                    p.sTop(v-if="todayLearn") 完成
+                    p.sTop.no(v-else) 未完成
                     p.sBottom 今日打卡
                 .wp50.fl
-                    p.sTop 01
+                    p.sTop {{continuousDays}}
                     p.sBottom 连续学习(天)
             .tabBox.pos_r
                 .wp100.hp100(@click.stop="toggleTabList")
@@ -29,13 +29,13 @@
 </template>
 
 <script>
-    // import wx from 'weixin-js-sdk';
-    import { API,URL_WEBSITE } from '../store'
+    import { mapState } from 'vuex'
     import vBookSlide from '@/components/common/bookSlide'
+    import vBookRule from '@/components/common/bookRule'
     export default {
         data() {
             return {
-                loading: true,
+                // loading: true,
                 tabList: false,
             }
         },
@@ -45,7 +45,6 @@
             window.addEventListener('popstate', function () {
                 history.pushState(null, null, document.URL);
             });
-
 
             let category_id = this.$store.state.category_id;
 
@@ -64,17 +63,18 @@
                 this.getInfo(category_id);
             },
             getInfo(category_id){
-                this.$http.get(API+'/book/user',{params:{category_id:category_id}}).then((res)=>{
+                this.$http.get(this.API+'/book/user/v',{params:{category_id:category_id}}).then((res)=>{
                         // console.log(res)
                         let bookList = res.data.data;
                         bookList.map((e,i)=>{
                         // console.log("e %s, i %s", JSON.stringify(e.coverImg), i)
-                            if(i==0){
-                                this.$preLoadImg(URL_WEBSITE+e.coverImg,()=>{
-                                    this.loading = false;
+                            if(i>=bookList.length/2){
+                                this.$preLoadImg(this.URL_WEBSITE+e.coverImg,()=>{
+                                    // this.loading = false;
+                                    this.$store.commit("loading",false);
                                 });
                             }else{
-                                this.$preLoadImg(URL_WEBSITE+e.coverImg);
+                                this.$preLoadImg(this.URL_WEBSITE+e.coverImg);
                             }
                         })
                         // this.curClassify = res
@@ -89,7 +89,7 @@
             classify(){ //分类选项卡分配
                 let classifyList = this.$store.state.classifyList;
                 if(classifyList==''){ //首次加载 
-                    this.$http.get(API+'/category',{params:{category_id:this.category_id,wx:'wx'}}).then((res)=>{
+                    this.$http.get(this.API+'/category',{params:{category_id:this.category_id,wx:'wx'}}).then((res)=>{
                         let data = res.data.data;
                         // console.log(data)
                         classifyList=[];
@@ -122,27 +122,26 @@
             },
             changeClassify(curClassify){
                 this.$store.commit('curClassify',curClassify);
+            },
+            ruleOpen(){
+                this.$store.commit('ruleBox', true);
             }
         },
         computed:{
-            curCategory_id(){
-                return this.$store.state.category_id
-            },
-            curClassify(){
-                return this.$store.state.curClassify
-            },
-            classifyList(){
-                return this.$store.state.classifyList
-            },
-            nickname(){
-                return this.$store.state.user.nickname
-            },
-            headimgurl(){
-                return this.$store.state.user.headimgurl
-            }
+            ...mapState({
+                curCategory_id: state => state.category_id,
+                curClassify: state => state.curClassify,
+                classifyList: state => state.classifyList,
+                nickname: state => state.user.nickname,
+                headimgurl: state => state.user.headimgurl,
+                todayLearn: state => state.user.todayLearn,
+                continuousDays: state => state.user.continuousDays
+            }),
+            
         },
         components: {
             vBookSlide,
+            vBookRule,
             'list':{
                 functional:true,
                 render:(h,context)=>{

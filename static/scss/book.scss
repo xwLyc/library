@@ -135,7 +135,7 @@
         .top{
             width: rem(750);
             height: rem(202);
-            background: url("/static/img/targetTop.png") no-repeat;
+            background: url($static+"/img/targetTop.png") no-repeat;
             background-size: 100% 100%; 
             h3{
                 margin-top: rem(64);
@@ -148,8 +148,86 @@
             width: rem(750);
             height: auto;
             padding-bottom: rem(60);
-            background: url("/static/img/targetBottom.png") no-repeat;
+            background: url($static+"/img/targetBottom.png") no-repeat;
             background-size: 100% 100%; 
+        }
+    }
+    .introduceList{
+        margin-top: rem(20);
+        .listTop{
+            width: 100%;
+            height: rem(75);
+        }
+        .listPro{
+            li{
+                width: rem(670);
+                height: rem(161);
+                margin-left: rem(41);
+                margin-bottom: rem(20);
+                background: #fbdb2d;
+                box-shadow: rem(0) rem(3) rem(4) rgba(0,0,0,0.2);
+                overflow: hidden;
+                border-radius: rem(18);
+                &:first-child{
+                    border-top-right-radius: 0;
+                    border-top-left-radius: 0;
+
+                }
+                .listBg{
+                    width: 100%;
+                    height: 100%;
+                    background: url($static+'/img/listBg.png') right center no-repeat;
+                    background-size: rem(258) 100%;
+                    .listHead{
+                        width: rem(138);
+                        height: rem(138);
+                        background: url($static+'/img/listHead.png') ;
+                        background-size: 100% 100%;
+                        overflow: hidden;
+                        margin: rem(11) rem(23);
+                        img{
+                            width: rem(78);
+                            height: rem(78);
+                            display: block;
+                            margin: rem(30);
+                            border-radius: 100%;
+                        }
+                    }
+                    .listTitleName{
+                        width: rem(318);
+                        height: 100%;
+                        align-items: center;
+                        display: flex;
+                        display: -webkit-flex;
+                        p{
+                            color: #6f1500;
+                            font-family: "comic";
+                            font-size: rem(30);
+                            line-height: rem(36);
+                            display: inline-block;
+                            @include ellipsis(2);
+                            // text-shadow: 0 rem(2) rgba(0, 0, 0, 0.4);
+                            &.no{
+                                color: #b1907d;
+                            }
+                        }
+                    }
+                    .listTime{
+                        width: rem(151);
+                        height: rem(35);
+                        margin-top: rem(63);
+                        margin-right: rem(16);
+                        background: url($static+'/img/listTimeBg.png');
+                        background-size: 100% 100%;
+                        text-align: center;
+                        line-height: rem(35);
+                        color: #FFF;
+                        font-size: rem(16);
+                        text-shadow: 0 rem(2) rgba(0, 0, 0, 0.4);
+                    }
+                }
+            }
+            
         }
     }
     .noNum{
@@ -159,7 +237,7 @@
         top: 0;
         left: 0;
         z-index: 100;
-        background: rgba(0, 0, 0, 0.6);
+        background: rgba(0, 0, 0, 0.75);
         img{
             width: rem(750);
             height: rem(363);
@@ -175,5 +253,467 @@
             right: rem(72);
             z-index: 101;    
         }
+    }
+}
+
+.bookRecording,.bookPreview{
+    min-height: 100vh;
+    background: url($static+'/img/recordBg.png') no-repeat;
+    background-size: contain;
+    .guideBox{
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 999;
+        background: rgba(0, 0, 0, 0.75);
+        .guide1,.guide2,.guide3{
+            width: 100%;
+            height: 100%;
+            position: relative;
+            img{
+                width: 100%;
+                position: absolute;
+                left: 0;
+                top:0;
+                z-index: 1;
+            }
+            &.guide1{
+                img{
+                    margin-top: rem(-198);
+                }
+            }
+            &.guide2{
+                img{
+                    margin-top: rem(-197);
+                }
+            }
+            &.guide3{
+                img{
+                    margin-top: rem(-257);
+                }
+            }
+        }
+    }
+    .bookban{
+        width: rem(666);
+        height: rem(562);
+        padding: rem(10) rem(42) 0;
+        background: url($static+"/img/bookban.png") no-repeat;
+        background-size: 100% 100%;
+        .bookBanImg,.picFolow{
+            width: rem(666);
+            height: rem(500);
+            position: absolute;
+            top: rem(10);
+            left: rem(42);
+            z-index: 3;
+            border-radius: rem(8);
+            overflow: hidden;
+            &.picFolow{
+                z-index: 99;
+                background: rgba(0,0,0,0.35);
+                line-height: rem(500);
+                text-align: center;
+                img{
+                    width: rem(220);
+                    height: rem(220);
+                    vertical-align: middle;
+                }
+            }
+        }
+        .bookBanMark{
+            width: rem(333);
+            height: rem(510);
+            border-radius: rem(6);
+            background: rgba(54, 160, 165, 0.08);
+            position: absolute;
+            top: rem(11);
+            left: rem(43);
+            z-index: 5;
+        }
+        .bookmtop{
+            width: rem(40);
+            height: rem(25);
+            background: url($static+'/img/bookmtop.png') no-repeat;
+            background-size: 100% 100%;
+            position: absolute;
+            top: rem(0);
+            left: rem(357);
+            z-index: 5;
+        }
+        .bookPage{
+            width: rem(114);
+            height: rem(60);
+            position: absolute;
+            top: rem(-50);
+            right: rem(100);
+            border-top-right-radius: rem(16);
+            border-top-left-radius: rem(16);
+            box-shadow: rem(8) rem(8) rgba(0,0,0,0.2);
+            background: #ec5344;
+            z-index: 2;
+            color: #FFF;
+            font-size: rem(26);
+            text-align: center;
+            line-height: rem(60);
+            font-family: 'comic';
+        }
+    }
+    .textBox{
+        width: rem(706);
+        margin: 0px auto;
+        font-size: rem(40);
+        font-weight: bold;
+        .textStyle{
+            color: #491e1e;
+            line-height: rem(54);
+        }
+    }
+
+    .audioBox{
+        width: rem(700);
+        margin: rem(100) auto 0px;
+        padding-bottom: rem(100);
+        .audioBtn{
+            display: inline-block;
+            vertical-align: bottom;
+            padding-bottom: rem(38);
+            a{
+                border-radius: 100%;
+                overflow: hidden;
+                display: block;
+                background: $white;
+                margin: 0px auto;
+                box-shadow: 0px rem(5) rem(4) 0px #ddd;
+            }
+            p{
+                color: #606060;
+                font-size: rem(20);
+            }
+        
+        }
+        .audioBtn1,.audioBtn3{
+            a{
+                width: rem(99);
+                height: rem(99);
+                margin-bottom: rem(40);
+            }
+        }
+        .audioBtn2{
+            margin: 0px rem(40);
+            a{
+                width: rem(190);
+                height: rem(190);
+                line-height: rem(190);
+                margin-bottom: rem(18);
+                img{
+                    width: rem(120);
+                    vertical-align: middle;
+                }
+            }
+            .ani{
+                width: rem(190);
+                height: rem(190);
+                position: absolute;
+                top: 0;
+                left: 0;
+                z-index: 1;
+
+                .circleProgress_wrapper{
+                    width: rem(190);
+                    height: rem(190);
+                    position: relative;
+
+                }
+                .wrapper{
+                    width: rem(95);
+                    height: rem(190);
+                    position: absolute;
+                    top:0;
+                    overflow: hidden;
+                }
+                .right{
+                    right:0;
+                }
+                .left{
+                    left:0;
+                }
+                .circleProgress{
+                    width: rem(182);
+                    height: rem(182);
+                    border:rem(4) solid $color1;
+                    border-radius: 50%;
+                    position: absolute;
+                    top:0;
+                    transform: rotate(45deg);
+                    -webkit-transform: rotate(45deg);
+                }
+                .rightcircle{
+                    border-top:rem(4) solid transparent;
+                    border-right:rem(4) solid transparent;
+                    right:0;
+                    animation: circleProgressLoad_right 3s linear 1;
+                    -webkit-animation: circleProgressLoad_right 3s linear 1;
+                }
+                .leftcircle{
+                    border-bottom:rem(4) solid transparent;
+                    border-left:rem(4) solid transparent;
+                    left:0;
+                    animation: circleProgressLoad_left 3s linear 1;
+                    -webkit-animation: circleProgressLoad_left 3s linear 1;
+                }
+                @keyframes circleProgressLoad_right{
+                    0%{
+                        ransform: rotate(45deg);
+                        -webkit-transform: rotate(45deg);
+                    }
+                    50%{
+                        transform: rotate(225deg);
+                        -webkit-transform: rotate(225deg);
+                    }
+                    100%{
+                        transform: rotate(225deg);
+                        -webkit-transform: rotate(225deg);
+                    }
+                }
+                @keyframes circleProgressLoad_left{
+                    0%{
+                        transform: rotate(45deg);
+                        -webkit-transform: rotate(45deg);
+                    }
+                    50%{
+                        transform: rotate(45deg);
+                        -webkit-transform: rotate(45deg);
+                    }
+                    100%{
+                        transform: rotate(225deg);
+                        -webkit-transform: rotate(225deg);
+                    }
+                }
+            }
+        }
+    }
+
+    .footBox{
+        width: 100%;
+        height: rem(84);
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        z-index: 99;
+        color: #FFF;
+        .prePage,.nextPage{
+            width: rem(152);
+            height: rem(52);
+            border-radius: rem(20);
+            margin: rem(0) rem(16);
+            background: #ff5a00;
+            color: #FFF;
+            box-shadow: 0 rem(8) #c14400;
+            position: relative;
+            img{
+                display: block;
+                width: rem(19);
+                height: rem(31);
+                margin-top: rem(11);
+                margin-left: rem(14);
+            }
+            p{
+                width: rem(126);
+                height: rem(52);
+                position: absolute;
+                top: 0;
+                right: 0;
+                z-index: 1;
+                text-align: center;
+                line-height: rem(55);
+                font-size: rem(30);
+            }
+            &.nextPage{
+                img{
+                    margin-right: rem(14);
+                }
+                p{
+                    left: 0;
+                }
+            }
+            &.noNext{
+                background: #c5c5c5;
+                box-shadow: 0 rem(8) #a4a4a4;
+            }
+        }
+        .pageNum{
+            width: rem(140);
+            height: 100%;
+            margin: 0 auto;
+            .curPage,.totalPage{
+                width: rem(60);
+            }
+            p{
+                display: inline-block;
+            }
+        }
+    }
+
+}
+
+.bookPreview{
+
+    .uploading{
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        z-index: 1000;
+        background: rgba(0,0,0,0.7);
+        img{
+            width: rem(120);
+            height: rem(120);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-left: rem(-60);
+            margin-top: rem(-140);
+            z-index: 101;
+        }
+        p{
+            text-align: center;
+            width: 100%;
+            height: rem(30);
+            position: absolute;
+            top: 50%;
+            left: 0;
+            z-index: 101;
+            color: #eee;
+        }
+    }
+    .shareing{
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        z-index: 1001;
+        background: rgba(0,0,0,0.75);
+    }
+    .createBox{
+        padding: rem(80) 0;
+        .createBtn{
+            width: rem(568);
+            height: rem(90);
+            line-height: rem(90);
+            margin: 0px auto;
+            border-radius: rem(40);
+            color: #FFF;
+            font-size: rem(42);
+            letter-spacing: rem(8);
+            background: #fea710;
+            box-shadow: 0 rem(10) 0 0 #cb6500;
+            
+        }
+        .fabu{
+            width: 100%;
+            height: rem(510);
+            position: absolute;
+            top: rem(-70);
+            left: 0;
+            z-index: 1;
+        }
+    }
+
+}
+.bookShare{
+    min-height: 100vh;
+    background: url($static+'/img/recordBg.png') no-repeat;
+    background-size: contain;
+    .iconXDF{
+        width: rem(407);
+        height: rem(48);
+        padding-top: rem(20);
+        padding-left: rem(28);
+    }
+    .baby{
+        width: rem(690);
+        height: rem(88);
+        margin: rem(18) auto rem(22);
+        .headImg{
+            width: rem(88);
+            height: rem(88);
+            border-radius: 100%;
+            background: #ffa903;
+            overflow: hidden;
+            img{
+                width: rem(80);
+                height: rem(80);
+                margin: rem(4);
+                border-radius: 100%;
+            }
+        }
+        .hText{
+            width: rem(374);
+            height: rem(30);
+            margin-top: rem(30);
+            margin-left: rem(14);
+        }
+    }
+    .picBox{
+        width: rem(700);
+        height: rem(562);
+        margin: 0 auto;
+        .picFolow,.picContent{
+            width: rem(666);
+            height: rem(498);
+            position: absolute;
+            top: rem(46);
+            left: rem(18);
+            z-index: 2;
+        }
+        .picContent{
+            border-radius: rem(28);
+            overflow: hidden;
+            z-index: 1;
+        }
+        .picAudioBtn{
+            width: rem(220);
+            height: rem(220);
+            position: absolute;
+            top: rem(172);
+            left: rem(243);
+            z-index: 3;
+        }
+    }
+    .ewmBox{
+        width: 100%;
+        height: rem(430);
+        margin-top: rem(15);
+    }
+}
+.bookAward{
+    min-height: 100vh;
+    background: #FFF;
+    .backTop{
+        height: rem(100);
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 1;
+    }
+    .linkBox{
+        width: rem(600);
+        overflow: hidden;
+        margin: 0 auto;
+        line-height: rem(50);
+        font-size: rem(28);
+        color: #2d2d2d;
+        a{
+            color: #0084e1;
+        }
+        span{
+            display: inline-block;
+        }
+
     }
 }

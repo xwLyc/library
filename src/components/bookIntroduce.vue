@@ -1,5 +1,6 @@
 <template lang="pug">
     .bookIntroduce.wp100.hp100
+        loading
         v-book-back
             p(slot="back" @click="toBack") 主页
         section.introduceTop.ofh
@@ -24,7 +25,24 @@
                     span.disc
                     span.name 句式
                 .ciText {{knowledge_grammar}}
-
+        section.introduceList
+            .listTop  
+                img.wp100.hp100(src="../../static/img/ListTitle.png")
+            ul.listPro(v-show="product")
+                li(v-for="list in booklist" @click="share(list._id,list.createdAt)")
+                    .listBg
+                        .listHead.fl
+                            img(:src="headimgurl")
+                        .listTitleName.fl
+                            p {{bookTitle}}
+                        .listTime.fr {{(list.createdAt).toString().split(" ")[0]}}
+            ul.listPro(v-show="!product" )
+                li
+                    .listBg
+                        .listHead.fl
+                            img(:src="headimgurl")
+                        .listTitleName.fl
+                            p.no 你还没有发布作品哦
         .noNum(v-show="noNum" @click="closeNum")
             img(src="../../static/img/twoNum.png")
             div.colse(@click="closeNum")
@@ -32,15 +50,12 @@
 
 <script>
     import vBookBack from '@/components/common/bookBack.vue'
-    import {
-        URL_WEBSITE,
-        API
-    } from "../store"
+
     
     export default {
         data() {
             return {
-                URL_WEBSITE: URL_WEBSITE,
+                URL_WEBSITE: this.URL_WEBSITE,
                 fmImg: '',
                 bookTitle: '',
                 bookWords: '',
@@ -53,20 +68,23 @@
                 cishu: true
             }
         },
-        created() {
-            // wx.hideAllNonBaseMenuItem();
+        mounted() {
+
+            this.$wechat.ready(()=>{
+                this.$wechat.hideAllNonBaseMenuItem();
+            })
             let bookID = this.$store.state.bookIntroductId;
             if (bookID == "") {
                 this.toBack();
             } else {
-                this.$http.get(API + '/book', {
+                this.$http.get(this.API + '/book', {
                     params: {
                         _id: bookID
                     }
                 }).then((res) => {
                     // console.log(res)
                     let data = res.data.data;
-                    this.fmImg = URL_WEBSITE + data.coverImg;
+                    this.fmImg = this.URL_WEBSITE + data.coverImg;
                     this.bookTitle = data.name;
                     this.bookWords = data.words;
                     this.bookTime = data.time;
@@ -74,12 +92,12 @@
                     this.knowledge_grammar = data.knowledge_grammar;
     
                     this.$store.commit('bookTitle', data.name);
-                    this.$store.commit('fmImg', URL_WEBSITE + data.coverImg);
+                    this.$store.commit('fmImg', this.URL_WEBSITE + data.coverImg);
                 });
-                this.$http.get(API + '/user/book', {
+                this.$http.get(this.API + '/user/book', {
                     params: {
                         book_id: bookID,
-                        userId: "5954d8aaf4d93c25be241e36" //上线时 注释掉
+                        // userId: "5954d8aaf4d93c25be241e36" //************* 上线时 注释掉 *****************//
                     }
                 }).then(res => {
                     // console.log(res)
@@ -90,11 +108,13 @@
                             this.product = true;
                             this.booklist = res.data.data;
                         }
+
+                        this.$store.commit("loading",false);
                     }
                 });
     
                 //获取用户今日登陆次数
-                this.$http.get(API + '/user/today_count').then(res => {
+                this.$http.get(this.API + '/user/today_count').then(res => {
                     console.log(res);
                     if (res.data.todayCount >= 2) {
                         this.cishu = false;
@@ -107,7 +127,7 @@
         methods: {
             toLink(){
                 if(this.cishu){
-                this.$router.replace({path:'/bookRecording'})
+                    this.$router.replace({path:'/bookRecording'})
                 }else{
                 this.noNum = true;
                 }
@@ -130,6 +150,9 @@
             },
             nickname(){
                 return this.$store.state.user.nickname
+            },
+            bookTitle(){
+                return this.$store.state.bookTitle
             }
         },
         components: {

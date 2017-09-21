@@ -4,8 +4,11 @@
 </template>
 
 <script>
-export default {
-  name: 'app'
-}
+  export default {
+    name: 'app',
+    created(){
+      this.SDKRegister(this);
+    }
+  }
 </script>
 
