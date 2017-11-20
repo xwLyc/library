@@ -23,16 +23,16 @@
                 curPass:'',
                 arrLink:[
                     {
-                        link:"http://www.baidu.com",
-                        password:"1234"
+                        link:"http://pan.baidu.com/s/1gfMq5Jd",
+                        password:"igfh"
                     },
                     {
-                        link:"http://www.qq.com",
-                        password:"1234"
+                        link:"http://pan.baidu.com/s/1sloMiPf",
+                        password:"x4hi"
                     },
                     {
-                        link:"http://www.kugou.com",
-                        password:"1234"
+                        link:"恭喜宝贝，完成连续21天打卡的挑战！请联系群主备注【打卡】，进行朋友圈打卡验证，申请奖品~",
+                        password:"无"
                     },
                 ]
             }

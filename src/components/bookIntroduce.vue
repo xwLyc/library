@@ -77,6 +77,9 @@
             if (bookID == "") {
                 this.toBack();
             } else {
+                //重置绘本阅读状态
+                this.$store.dispatch('clearSource');
+                
                 this.$http.get(this.API + '/book', {
                     params: {
                         _id: bookID

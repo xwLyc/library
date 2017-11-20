@@ -17,7 +17,7 @@
                                 | 连续打卡
                                 span 7
                                 | 天的奖励
-                            p.t2 免费领取自然拼读电子资源
+                            p.t2 免费领取70本海尼曼有声书
                             p.t3.complete(v-show="complete7" @click="toAwrad") 点击领取
                             p.t3.noComplete(v-show="!complete7") 未完成
                         .ruleRText
@@ -25,7 +25,7 @@
                                 | 连续打卡
                                 span 14
                                 | 天的奖励
-                            p.t2 免费领取30部英文动画片资源
+                            p.t2 免费领取150部英文动画片
                             p.t3.complete(v-show="complete14" @click="toAwrad") 点击领取
                             p.t3.noComplete(v-show="!complete14") 未完成
                         .ruleRText
@@ -33,7 +33,7 @@
                                 | 连续打卡
                                 span 21
                                 | 天的奖励
-                            p.t2 免费领取180本英文有声绘本资源
+                            p.t2 免费领取原版英文绘本实体书
                             p.t3.complete(v-show="complete21" @click="toAwrad") 点击领取
                             p.t3.noComplete(v-show="!complete21") 未完成
 

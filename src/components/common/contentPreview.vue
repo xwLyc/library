@@ -129,8 +129,6 @@
                     that.$store.commit('bookAudioId',res.data._id);
                     that.shareUser();
                     that.goShare();
-                    //重置绘本阅读状态
-                    that.$store.dispatch('clearSource');
                   }else{
                     alert("上传失败")
                   }
