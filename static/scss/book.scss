@@ -689,6 +689,14 @@
         width: 100%;
         height: rem(430);
         margin-top: rem(15);
+        .ewmImg{
+            width: rem(178);
+            height: rem(178);
+            position: absolute;
+            top: rem(97);
+            right: rem(67);
+            z-index: 1;
+        }
     }
 }
 .bookAward{
