@@ -218,18 +218,7 @@
                     // config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，config是一个客户端的异步操作，所以如果需要在页面加载时就调用相关接口，则须把相关接口放在ready函数中调用来确保正确执行。对于用户触发时才调用的接口，则可以直接调用，不需要放在ready函数中。
                     this.$wechat.hideAllNonBaseMenuItem();
                     this.$wechat.showMenuItems({
-                        menuList: ['menuItem:share:appMessage','menuItem:share:timeline'] // 要显示的菜单项
-                    });
-                    this.$wechat.onMenuShareTimeline({
-                        title: user+'家的宝贝录制了属于自己的英文绘本，口语发音666，快来听听！', // 分享标题
-                        link: urlwx, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-                        imgUrl: fmImg, // 分享图标
-                        success: () => { 
-                            // 用户确认分享后执行的回调函数
-                        },
-                        cancel: () => { 
-                            // 用户取消分享后执行的回调函数
-                        }
+                        menuList: ['menuItem:share:timeline','menuItem:share:appMessage'] // 要显示的菜单项
                     });
                     this.$wechat.onMenuShareAppMessage({
                         title: '快来听，'+user+'完成了很棒的绘本作品。', // 分享标题
@@ -241,6 +230,17 @@
                         success: () => { 
                             // 用户确认分享后执行的回调函数
                             // alert('分享成功：' +urlwx)
+                        },
+                        cancel: () => { 
+                            // 用户取消分享后执行的回调函数
+                        }
+                    });
+                    this.$wechat.onMenuShareTimeline({
+                        title: user + '家的宝贝录制了属于自己的英文绘本，口语发音666，快来听听！', // 分享标题
+                        link: urlwx, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                        imgUrl: fmImg, // 分享图标
+                        success: () => { 
+                            // 用户确认分享后执行的回调函数
                         },
                         cancel: () => { 
                             // 用户取消分享后执行的回调函数

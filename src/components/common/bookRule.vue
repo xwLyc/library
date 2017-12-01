@@ -59,11 +59,11 @@
             }
         },
         mounted(){
-            if(this.continuousDays>=7){
+            if(this.longestContinuousDays>=7){
                 this.complete7 = true
-            }else if(this.continuousDays>=14){
+            }else if(this.longestContinuousDays>=14){
                 this.complete14 = true
-            }else if(this.continuousDays>=21){
+            }else if(this.longestContinuousDays>=21){
                 this.complete21 = true
             }
         },
@@ -79,17 +79,18 @@
             ...mapState({
                 ruleBox: state => state.ruleBox,
                 todayLearn: state => state.user.todayLearn,
-                continuousDays: state => state.user.continuousDays
+                continuousDays: state => state.user.continuousDays,
+                longestContinuousDays: state => state.user.longestContinuousDays,
             }),
         },
         watch:{
-            continuousDays(){
+            longestContinuousDays(){
 
-                if(this.continuousDays>=7){
+                if(this.longestContinuousDays>=7){
                     this.complete7 = true
-                }else if(this.continuousDays>=14){
+                }else if(this.longestContinuousDays>=14){
                     this.complete14 = true
-                }else if(this.continuousDays>=21){
+                }else if(this.longestContinuousDays>=21){
                     this.complete21 = true
                 }
             }

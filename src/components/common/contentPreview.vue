@@ -175,7 +175,7 @@
                   menuList: ['menuItem:share:appMessage','menuItem:share:timeline'] // 要显示的菜单项
               });
               this.$wechat.onMenuShareTimeline({
-                  title: '快来听，'+user+'完成了很棒的绘本作品，邀请你和宝贝一起参加', // 分享标题
+                  title: user + '家的宝贝录制了属于自己的英文绘本，口语发音666，快来听听！', // 分享标题
                   link: winURL, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
                   imgUrl: fmImg, // 分享图标
                   success: function () { 
