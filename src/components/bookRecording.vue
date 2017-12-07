@@ -32,8 +32,8 @@
 
         mounted() {
 
-            // this.SDKRegister(this,()=>{
-            // })
+            this.SDKRegister(this,()=>{
+            })
 
             let wx = this.$wechat;
             // wx.ready(()=>{

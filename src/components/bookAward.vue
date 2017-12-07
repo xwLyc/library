@@ -39,13 +39,13 @@
         },
         mounted(){
 
-            if(this.continuousDays>=7){
+            if(this.longestContinuousDays>=7){
                 this.curLink = this.arrLink[0].link;
                 this.curPass = this.arrLink[0].password;
-            }else if(this.continuousDays>=14){
+            }else if(this.longestContinuousDays>=14){
                 this.curLink = this.arrLink[1].link;
                 this.curPass = this.arrLink[1].password;
-            }else if(this.continuousDays>=21){
+            }else if(this.longestContinuousDays>=21){
                 this.curLink = this.arrLink[2].link;
                 this.curPass = this.arrLink[2].password;
             }else{
@@ -61,8 +61,8 @@
             vBookBack
         },
         computed:{
-            continuousDays(){
-                return this.$store.state.user.continuousDays
+            longestContinuousDays(){
+                return this.$store.state.user.longestContinuousDays
             }
         }
     }

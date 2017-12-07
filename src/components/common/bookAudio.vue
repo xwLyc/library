@@ -97,6 +97,7 @@
             }else{
                 this.guideBox = false;
             }
+            this.localId = this.$store.state.audioId[this.$store.state.page.curPage-1];
 
         },
         methods:{

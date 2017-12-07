@@ -61,9 +61,11 @@
         mounted(){
             if(this.longestContinuousDays>=7){
                 this.complete7 = true
-            }else if(this.longestContinuousDays>=14){
+            } 
+            if(this.longestContinuousDays>=14){
                 this.complete14 = true
-            }else if(this.longestContinuousDays>=21){
+            } 
+            if(this.longestContinuousDays>=21){
                 this.complete21 = true
             }
         },
@@ -72,7 +74,7 @@
                 this.$store.commit('ruleBox', false);
             },
             toAwrad(){
-                this.$router.replace({path:'/bookAward'});
+                this.$router.push({name:'bookAward'});
             }
         },
         computed:{
@@ -88,9 +90,11 @@
 
                 if(this.longestContinuousDays>=7){
                     this.complete7 = true
-                }else if(this.longestContinuousDays>=14){
+                } 
+                if(this.longestContinuousDays>=14){
                     this.complete14 = true
-                }else if(this.longestContinuousDays>=21){
+                } 
+                if(this.longestContinuousDays>=21){
                     this.complete21 = true
                 }
             }
