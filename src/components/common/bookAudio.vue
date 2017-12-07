@@ -193,21 +193,15 @@
         watch:{
             src2(val, oldVal){
                 if(val==true&&oldVal==false){
-                    this.$store.commit('src3',true);
                     this.$wechat.stopRecord({
                         success:  (res)=> {
                             this.localId = res.localId;
                             let i = this.$store.state.page.curPage-1;
-
                             let data ={};
                             data.index = i;
                             data.audioId =this.localId;
                             this.$store.commit('audioId',data);
-                            // this.src3 = 1;
-                            
-
-                            // console.log("设置localId: "+this.localId)
-                            // console.log(this.$store.state.audioId)
+                            this.$store.commit('src3',true);
                         }
                     });
                 }
@@ -221,7 +215,7 @@
                 return src2Play
             },
             source3(){
-                return this.src3 == "-1" ? src3Playno : this.src3 == 1 ? src3Play : src3Playing
+                return this.src3 == "-1" ? src3Playno : this.src3 ? src3Play : src3Playing
             },
             src1(){
                 return this.$store.state.src.src1
