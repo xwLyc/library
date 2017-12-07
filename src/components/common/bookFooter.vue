@@ -29,7 +29,7 @@ export default {
         if(this.page.curPage<this.page.totalPage){
           this.$store.commit('increment');
           if(!this.$store.state.audioId[this.$store.state.page.curPage-1]){
-            this.$store.commit('src3','-1');
+            this.$store.commit('src3', -1);
           }
         }else{
           this.$router.replace({path:'/bookPreview'})

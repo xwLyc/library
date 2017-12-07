@@ -78,7 +78,7 @@
             this.$root.$on('stopAudio',()=>{
                 this.$store.commit('src1',true);
                 this.$store.commit('src2',true);
-                this.$store.commit('src3',true);
+                // this.$store.commit('src3',true);
                 this.stopAudio();
             })
         },
@@ -95,11 +95,6 @@
                 this.guideBox = false;
             }
             this.localId = this.audioId[this.page.curPage-1];
-            setTimeout(() => {
-                console.log("src1: " + this.src1)
-                console.log("page: " + this.page)
-                console.log("firstLearn: " + this.firstLearn)
-            }, 1000);
         },
         methods:{
             audio1(){
@@ -186,6 +181,8 @@
                     this.$wechat.stopRecord({
                         success:  (res)=> {
                             // var localId = res.localId;
+                            // console.log(this.audioId)
+                            // console.log(res.localId)
                         }
                     });
                 })
