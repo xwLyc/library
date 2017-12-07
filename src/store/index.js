@@ -21,14 +21,14 @@ const state = {
     page:{                  //页码
         prePage: '上一页',
         nextPage: '下一页',
-        curPage: '1',
+        curPage: 1,
         totalPage: ''
     },
     audioId:[],
     src:{
         src1:true,
         src2:true,
-        src3:'-1',
+        src3: -1,
     },
     source:'',
     bookAudioId:'',
@@ -88,7 +88,7 @@ const actions = {
     clearSource(context){
         context.commit('src1',true);
         context.commit('src2',true);
-        context.commit('src3','-1');
+        context.commit('src3', -1);
         context.commit('initAudioId');
     },
     loading({commit}){
