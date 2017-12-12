@@ -1,5 +1,6 @@
 // $static: '/static';//开发环境
-$static: '/libraryTest/static';//线上环境
+// $static: '/libraryTest/static';// 测试环境
+$static: '/library/static';// 正式环境
 $defaultSize: 75 !default;
 @function rem($px){
     @return $px / $defaultSize * 1rem;
