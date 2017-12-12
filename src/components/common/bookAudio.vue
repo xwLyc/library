@@ -2,17 +2,17 @@
     section.audioBox.tac
         //- 原版读音
         .audioBtn.audioBtn1(ref="audioImg1")
-            a(href="javascript:;" @click="audio1" )
+            a(:class="this.src1&&this.src2&&this.src3? 'active':''" href="javascript:;" @click="audio1" ontouchstart="")
                 img( :src="src1 ? src1Play : src1Playing")   
             audio( :src="audioSrc.audio" ref="audio1")
         //-  点击录音
         .audioBtn.audioBtn2.pos_r(ref="audioImg2")
-            a(href="javascript:;" @click="audio2")
+            a(:class="this.src1&&this.src3? 'active':''" href="javascript:;" @click="audio2" ontouchstart="" )
                 img(:src="src2 ? src2Play: src2Playing")     
             
         //-  宝贝读音  
         .audioBtn.audioBtn3(ref="audioImg3")
-            a(href="javascript:;" @click="audio3" )
+            a(:class="this.src1&&this.src2&&this.src3? 'active':''" href="javascript:;" @click="audio3" ontouchstart="")
                 img( :src="src3 == -1 ? src3Playno : src3 ? src3Play : src3Playing" )     
 
 
@@ -56,6 +56,7 @@
                 guide2:false,
                 guide3:false,
                 localId: '',
+                cordTime: 0,    //录制时间
             }
         },
         created(){
@@ -71,6 +72,8 @@
                             alert('用户拒绝授权录音');
                         }
                     });
+                }else{
+                    // alert('微信录音功能开启')
                 }
             });
 
@@ -112,41 +115,54 @@
                 }
             },
             audio2(){
-                if(this.src2&&this.src1&&this.src3){
-                    this.$wechat.startRecord({
-                        success: ()=> {
-                            this.$store.commit('src2',false);
+                this.$wechat.ready(()=>{
+                    if(this.src2&&this.src1&&this.src3){
+                        this.$wechat.startRecord({
+                            success: ()=> {
+                                setTimeout(()=>{
+                                    this.cordTime = 1;
+                                },1000)
+                                this.$store.commit('src2',false);
+                            }
+                        });
+                    }
+                    if(!this.src2&&this.src1&&this.src3){ 
+                        if(this.cordTime<1){
+                            alert('录制时间不得小于1s')
+                        }else{
+                            this.$wechat.stopRecord({
+                                success:  (res)=> {
+                                    this.localId = res.localId;
+        
+                                    let data ={};
+                                    data.index = this.page.curPage-1;
+                                    data.audioId =this.localId;
+                                    this.$store.commit('audioId',data);
+                                    // this.src3 = 1;
+                                    this.$store.commit('src2',true);
+                                    this.$store.commit('src3',true);
+        
+                                    // console.log("设置localId: "+this.localId)
+                                    // console.log(this.audioId)
+                                    this.cordTime = 0;
+                                },
+                                fail: (res)=>{
+                                    alert(res)
+                                }
+                            });
                         }
-                    });
-                }
-                if(!this.src2&&this.src1&&this.src3){ 
-                    this.$wechat.stopRecord({
-                        success:  (res)=> {
-                            this.localId = res.localId;
-
-                            let data ={};
-                            data.index = this.page.curPage-1;
-                            data.audioId =this.localId;
-                            this.$store.commit('audioId',data);
-                            // this.src3 = 1;
+                    }
+    
+                    this.$wechat.onVoiceRecordEnd({
+                        // 录音时间超过一分钟没有停止的时候会执行 complete 回调
+                        complete:  (res) => {
+                            this.localId = res.localId; 
                             this.$store.commit('src2',true);
                             this.$store.commit('src3',true);
-
-                            console.log("设置localId: "+this.localId)
-                            console.log(this.audioId)
                         }
+    
                     });
-                }
-
-                this.$wechat.onVoiceRecordEnd({
-                    // 录音时间超过一分钟没有停止的时候会执行 complete 回调
-                    complete:  (res) => {
-                        this.localId = res.localId; 
-                        this.$store.commit('src2',true);
-                        this.$store.commit('src3',true);
-                    }
-
-                });
+                })
                 
             },
             audio3(){

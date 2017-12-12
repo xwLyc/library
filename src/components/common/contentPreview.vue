@@ -114,8 +114,8 @@
                 that.uploadVIndex++;
                 uploadVoice(that.uploadVIndex);
               } 
-              console.log('sentences : ' + JSON.stringify(sentences))
-              console.log(sentences.length)
+              // console.log('sentences : ' + JSON.stringify(sentences))
+              // console.log(sentences.length)
               if (sentences.length == audioId.length) {
                 // alert('sentences : ' + JSON.stringify(sentences))
                 that.$http.post(that.API + '/upload_voice', {
@@ -130,26 +130,13 @@
                     that.shareUser();
                     that.goShare();
                   }else{
-                    alert("上传失败,重新上传中...");
-                    that.$http.post(that.API + '/upload_voice', {
-                      _id: bookID,
-                      sentences: JSON.stringify(sentences)
-                    }).then((res) => {
-                      that.loading = false;
-                      if(res.data.code == 0){
-                        that.$root.$emit('upend');
-                        that.fabuEnd = !that.fabuEnd;
-                        that.$store.commit('bookAudioId',res.data._id);
-                        that.shareUser();
-                        that.goShare();
-                      }else{
-                        alert('奴家尽力了... 请到网络好的地方开始绘本阅读吧~')
-                      }
-                    })
-
+                    alert("code: "+ res.data.code +", msg: "+ res.data.msg);
                   }
                 })
               }
+            },
+            fail: (res) => {
+              alert('微信服务上传出错：'+ res)
             }
           })
         }
