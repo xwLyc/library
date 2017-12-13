@@ -1,24 +1,19 @@
 <template lang="pug">
     section.audioBox.tac
+        //- 原版读音
         .audioBtn.audioBtn1(ref="audioImg1")
-            a(href="javascript:;" @click="audio1" )
-                img( :src="source1" v-bind:src1="true")   
+            a(:class="this.src1&&this.src2&&this.src3? 'active':''" href="javascript:;" @click="audio1" ontouchstart="")
+                img( :src="src1 ? src1Play : src1Playing")   
             audio( :src="audioSrc.audio" ref="audio1")
-            //- p 原版读音
+        //-  点击录音
         .audioBtn.audioBtn2.pos_r(ref="audioImg2")
-            a(href="javascript:;" @click="audio2")
-                img( :src="source2" v-bind:src2="true")     
-            .ani(v-show="!src2")
-                .circleProgress_wrapper
-                    .wrapper.right
-                        .circleProgress.rightcircle(ref="nana1")
-                    .wrapper.left
-                        .circleProgress.leftcircle(ref="nana2")
-            //- p 点击录音
+            a(:class="this.src1&&this.src3? 'active':''" href="javascript:;" @click="audio2" ontouchstart="" )
+                img(:src="src2 ? src2Play: src2Playing")     
+            
+        //-  宝贝读音  
         .audioBtn.audioBtn3(ref="audioImg3")
-            a(href="javascript:;" @click="audio3" )
-                img( :src="source3" v-bind:src3="-1")     
-            //- p 宝贝读音  
+            a(:class="this.src1&&this.src2&&this.src3? 'active':''" href="javascript:;" @click="audio3" ontouchstart="")
+                img( :src="src3 == -1 ? src3Playno : src3 ? src3Play : src3Playing" )     
 
 
         .guideBox(v-show="guideBox")
@@ -33,11 +28,12 @@
     import src1Play from '../../../static/img/icon1.png';
     import src1Playing from '../../../static/img/icon5.png';
     import src2Play from '../../../static/img/icon4.png';
-    import src2Playing from '../../../static/img/icon3.png';
+    import src2Playing from '../../../static/img/icon4.gif';
     import src3Playno from '../../../static/img/icon2.png';
     import src3Play from '../../../static/img/icon3.png';
     import src3Playing from '../../../static/img/icon6.png';
 
+    import { mapState, mapActions } from 'vuex'
 
 
     export default{
@@ -47,21 +43,23 @@
                 // src1:true,
                 // src2:true,
                 // src3:'-1',
+                src1Play: src1Play,
+                src1Playing: src1Playing,
+                src2Play: src2Play,
+                src2Playing: src2Playing,
+                src3Playno: src3Playno,
+                src3Play: src3Play,
+                src3Playing: src3Playing,
+
                 guideBox:true,
                 guide1:true,
                 guide2:false,
                 guide3:false,
                 localId: '',
-                isiOS:false
+                cordTime: 0,    //录制时间
             }
         },
         created(){
-            let u = navigator.userAgent;
-            let isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
-            let isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
-            this.isiOS = isiOS;
-            // alert("offsetWidth: "+this.$refs.audioImg1.offsetWidth);
-            // alert("offsetHeight: "+this.$refs.audioImg1.offsetHeight);
             this.$wechat.ready( () => {
                 // config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，config是一个客户端的异步操作，所以如果需要在页面加载时就调用相关接口，则须把相关接口放在ready函数中调用来确保正确执行。对于用户触发时才调用的接口，则可以直接调用，不需要放在ready函数中。
                 if(!localStorage.rainAllowRecord || localStorage.rainAllowRecord !== 'true'){
@@ -74,6 +72,8 @@
                             alert('用户拒绝授权录音');
                         }
                     });
+                }else{
+                    // alert('微信录音功能开启')
                 }
             });
 
@@ -81,7 +81,7 @@
             this.$root.$on('stopAudio',()=>{
                 this.$store.commit('src1',true);
                 this.$store.commit('src2',true);
-                this.$store.commit('src3',true);
+                // this.$store.commit('src3',true);
                 this.stopAudio();
             })
         },
@@ -97,8 +97,7 @@
             }else{
                 this.guideBox = false;
             }
-            this.localId = this.$store.state.audioId[this.$store.state.page.curPage-1];
-
+            this.localId = this.audioId[this.page.curPage-1];
         },
         methods:{
             audio1(){
@@ -116,66 +115,93 @@
                 }
             },
             audio2(){
-                if(this.src2&&this.src1&&this.src3){
-
-                    let time = this.audioSrc.duration+1;
-                    let that = this;
-                    // that.localId = '';
-                    this.$wechat.startRecord({
-                        success: ()=> {
-                            that.$store.commit('src2',false);
-                            if(this.isiOS){
-                                that.aniTime(time+0.5);
-                            }else{
-                                that.aniTime(time);
+                this.$wechat.ready(()=>{
+                    if(this.src2&&this.src1&&this.src3){
+                        this.$wechat.startRecord({
+                            success: ()=> {
+                                setTimeout(()=>{
+                                    this.cordTime = 1;
+                                },1000)
+                                this.$store.commit('src2',false);
                             }
-                            // alert('开始录音成功回调');
-                            let timeOut = setTimeout(()=>{
-                                that.$store.commit('src2',true);
-                                clearTimeout(timeOut);
-                            }, time*1000);
+                        });
+                    }
+                    if(!this.src2&&this.src1&&this.src3){ 
+                        if(this.cordTime<1){
+                            alert('录制时间不得小于1s')
+                        }else{
+                            this.$wechat.stopRecord({
+                                success:  (res)=> {
+                                    this.localId = res.localId;
+        
+                                    let data ={};
+                                    data.index = this.page.curPage-1;
+                                    data.audioId =this.localId;
+                                    this.$store.commit('audioId',data);
+                                    // this.src3 = 1;
+                                    this.$store.commit('src2',true);
+                                    this.$store.commit('src3',true);
+        
+                                    // console.log("设置localId: "+this.localId)
+                                    // console.log(this.audioId)
+                                    this.cordTime = 0;
+                                },
+                                fail: (res)=>{
+                                    alert(res)
+                                }
+                            });
                         }
+                    }
+    
+                    this.$wechat.onVoiceRecordEnd({
+                        // 录音时间超过一分钟没有停止的时候会执行 complete 回调
+                        complete:  (res) => {
+                            this.localId = res.localId; 
+                            this.$store.commit('src2',true);
+                            this.$store.commit('src3',true);
+                        }
+    
                     });
-                }
+                })
                 
             },
             audio3(){
-                if(this.src3>-1&&this.src2&&this.src1){
+                if(this.src3 != -1 &&this.src2&&this.src1){
                     if (!this.localId) {
                         alert('没有录音，请重新录音');
                     }else{
                         if(this.src3){
                             // this.src3 = false;
                             this.$store.commit('src3',false);
-                            let curPagelocalId = this.$store.state.audioId[this.$store.state.page.curPage-1];
-                            this.$wechat.playVoice({
-                                localId: curPagelocalId// 需要播放的音频的本地ID，由stopRecord接口获得
-                            });
-                            this.$wechat.onVoicePlayEnd({
-                                success:  (res)=> {
-                                    this.$store.commit('src3',true);
-                                }
-                            });
+                            let curPagelocalId = this.audioId[this.page.curPage-1];
+                            this.$wechat.ready(()=>{
+                                this.$wechat.playVoice({
+                                    localId: curPagelocalId// 需要播放的音频的本地ID，由stopRecord接口获得
+                                });
+                                this.$wechat.onVoicePlayEnd({
+                                    success:  (res)=> {
+                                        this.$store.commit('src3',true);
+                                    }
+                                });
+                            })
                         }
                         
                     }
                 }
             },
-            aniTime(time){
-                this.$refs.nana1.style.animationDuration = time+"s";
-                this.$refs.nana2.style.animationDuration = time+"s";
-                this.$refs.nana1.style.webkitAnimationDuration = time+"s";
-                this.$refs.nana2.style.webkitAnimationDuration = time+"s";
-            },
             stopAudio(){
-                this.$wechat.stopVoice({
-                    localId: this.$store.state.audioId[this.$store.state.page.curPage-1]// 需要停止的音频的本地ID，由stopRecord接口获得
-                });
-                this.$wechat.stopRecord({
-                    success:  (res)=> {
-                        // var localId = res.localId;
-                    }
-                });
+                this.$wechat.ready(()=>{  
+                    this.$wechat.stopVoice({
+                        localId: this.audioId[this.page.curPage-1]// 需要停止的音频的本地ID，由stopRecord接口获得
+                    });
+                    this.$wechat.stopRecord({
+                        success:  (res)=> {
+                            // var localId = res.localId;
+                            // console.log(this.audioId)
+                            // console.log(res.localId)
+                        }
+                    });
+                })
             },
             guideBox1(){
                 this.guide1 = false;
@@ -190,6 +216,7 @@
                 this.guideBox = false;
             }
         },
+<<<<<<< HEAD
         watch:{
             src2(val, oldVal){
                 if(val==true&&oldVal==false){
@@ -229,6 +256,16 @@
             firstLearn(){
                 return this.$store.state.user.firstLearn
             }
+=======
+        computed:{
+            ...mapState(['audioId','page']),
+            ...mapState({
+                firstLearn: state => state.user.firstLearn,
+                src1: state => state.src.src1,
+                src2: state => state.src.src2,
+                src3: state => state.src.src3,
+            })
+>>>>>>> dev
         }
     }
 </script>

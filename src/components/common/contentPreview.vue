@@ -114,8 +114,8 @@
                 that.uploadVIndex++;
                 uploadVoice(that.uploadVIndex);
               } 
-              // alert('sentences : ' + JSON.stringify(sentences))
-              // alert(sentences.length)
+              // console.log('sentences : ' + JSON.stringify(sentences))
+              // console.log(sentences.length)
               if (sentences.length == audioId.length) {
                 // alert('sentences : ' + JSON.stringify(sentences))
                 that.$http.post(that.API + '/upload_voice', {
@@ -130,10 +130,13 @@
                     that.shareUser();
                     that.goShare();
                   }else{
-                    alert("上传失败")
+                    alert("code: "+ res.data.code +", msg: "+ res.data.msg);
                   }
                 })
               }
+            },
+            fail: (res) => {
+              alert('微信服务上传出错：'+ res)
             }
           })
         }

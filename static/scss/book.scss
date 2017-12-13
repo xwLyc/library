@@ -387,6 +387,9 @@
                 background: $white;
                 margin: 0px auto;
                 box-shadow: 0px rem(5) rem(4) 0px #ddd;
+                &.active:active{
+                    background: #eee;
+                }
             }
             p{
                 color: #606060;
