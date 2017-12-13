@@ -18,7 +18,7 @@
                                 span 7
                                 | 天的奖励
                             p.t2 免费领取70本海尼曼有声书
-                            p.t3.complete(v-show="complete7" @click="toAwrad") 点击领取
+                            p.t3.complete(v-show="complete7" @click="toAwrad(7)") 点击领取
                             p.t3.noComplete(v-show="!complete7") 未完成
                         .ruleRText
                             p.t1 
@@ -26,7 +26,7 @@
                                 span 14
                                 | 天的奖励
                             p.t2 免费领取150部英文动画片
-                            p.t3.complete(v-show="complete14" @click="toAwrad") 点击领取
+                            p.t3.complete(v-show="complete14" @click="toAwrad(14)") 点击领取
                             p.t3.noComplete(v-show="!complete14") 未完成
                         .ruleRText
                             p.t1 
@@ -34,7 +34,7 @@
                                 span 21
                                 | 天的奖励
                             p.t2 免费领取原版英文绘本实体书
-                            p.t3.complete(v-show="complete21" @click="toAwrad") 点击领取
+                            p.t3.complete(v-show="complete21" @click="toAwrad(21)") 点击领取
                             p.t3.noComplete(v-show="!complete21") 未完成
 
                 .ruleBottom
@@ -73,7 +73,8 @@
             ruleClose(){
                 this.$store.commit('ruleBox', false);
             },
-            toAwrad(){
+            toAwrad(day){
+                this.$store.commit('timeContinue', day);
                 this.$router.push({name:'bookAward'});
             }
         },

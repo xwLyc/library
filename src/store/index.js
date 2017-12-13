@@ -33,7 +33,8 @@ const state = {
     source:'',
     bookAudioId:'',
     bookSource:'',
-    headTime:''
+    headTime:'',
+    timeContinue:'',        //连续几天打卡
 
 }
 const mutations = {
@@ -75,6 +76,7 @@ const mutations = {
     bookAudioId:(state, bookAudioId) => state.bookAudioId = bookAudioId,
     bookSource:(state, bookSource) => state.bookSource = bookSource,
     headTime:(state, headTime) => state.headTime = headTime,
+    timeContinue:(state, timeContinue) => state.timeContinue = timeContinue,
 
     
 }

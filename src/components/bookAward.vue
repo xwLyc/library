@@ -7,7 +7,7 @@
         .linkBox
             p
                 span 链接：
-                a(:href="curLink") {{curLink}}
+                a(:href="timeContinue < 21?curLink : '#'") {{curLink}}
             p
                 span 密码：
                 span {{curPass}}
@@ -39,13 +39,13 @@
         },
         mounted(){
 
-            if(this.longestContinuousDays>=7){
+            if(this.timeContinue==7){
                 this.curLink = this.arrLink[0].link;
                 this.curPass = this.arrLink[0].password;
-            }else if(this.longestContinuousDays>=14){
+            }else if(this.timeContinue==14){
                 this.curLink = this.arrLink[1].link;
                 this.curPass = this.arrLink[1].password;
-            }else if(this.longestContinuousDays>=21){
+            }else if(this.timeContinue==21){
                 this.curLink = this.arrLink[2].link;
                 this.curPass = this.arrLink[2].password;
             }else{
@@ -61,9 +61,7 @@
             vBookBack
         },
         computed:{
-            longestContinuousDays(){
-                return this.$store.state.user.longestContinuousDays
-            }
+            ...mapState(['timeContinue'])
         }
     }
 </script>
