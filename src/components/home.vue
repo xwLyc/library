@@ -16,8 +16,8 @@
                     p.sTop.no(v-else) 未完成
                     p.sBottom 今日打卡
                 .wp50.fl
-                    p.sTop {{continuousDays}}
-                    p.sBottom 连续学习(天)
+                    p.sTop {{continuousRecordDays}}
+                    p.sBottom 连续打卡(天)
             .tabBox.pos_r
                 .wp100.hp100(@click.stop="toggleTabList")
                     p.tabTitle.tac.fl {{curClassify}}
@@ -135,7 +135,7 @@
                 nickname: state => state.user.nickname,
                 headimgurl: state => state.user.headimgurl,
                 todayLearn: state => state.user.todayLearn,
-                continuousDays: state => state.user.continuousDays
+                continuousRecordDays: state => state.user.continuousRecordDays
             }),
             
         },

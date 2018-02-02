@@ -2,7 +2,7 @@
   div.pos_r
     .uploading(v-show="loading")
       img(src="../../../static/img/loading1.gif")
-      p 正在上传...
+      p 第{{indexLy}}个录音正在上传...
     
     .shareing(v-show="share" @click="hideShare")
       img.wp100(src="../../../static/img/share.png")
@@ -45,6 +45,7 @@
         titleNext:'',
         loading:false,
         share:false,
+        indexLy: 0,
       }
     },
     created() {
@@ -101,44 +102,57 @@
 
         function uploadVoice(i) {
           that.loading = true;
-          that.$wechat.uploadVoice({
-            localId: audioId[i], // 需要上传的音频的本地ID，由stopRecord接口获得
-            isShowProgressTips: 0, // 默认为1，显示进度提示
-            success: (res) => {
-              let obj = {};
-              obj.page = i + 1;
-              obj.sentenceId = bookSource[i]._id;
-              obj.serverId = res.serverId; // 返回音频的服务器端ID
-              sentences.push(obj);
-              if (i < audioId.length-1) {
-                that.uploadVIndex++;
-                uploadVoice(that.uploadVIndex);
-              } 
-              // console.log('sentences : ' + JSON.stringify(sentences))
-              // console.log(sentences.length)
-              if (sentences.length == audioId.length) {
-                // alert('sentences : ' + JSON.stringify(sentences))
-                that.$http.post(that.API + '/upload_voice', {
-                  _id: bookID,
-                  sentences: JSON.stringify(sentences)
-                }).then((res) => {
-                  that.loading = false;
-                  if(res.data.code == 0){
-                    that.$root.$emit('upend');
-                    that.fabuEnd = !that.fabuEnd;
-                    that.$store.commit('bookAudioId',res.data._id);
-                    that.shareUser();
-                    that.goShare();
-                  }else{
-                    alert("code: "+ res.data.code +", msg: "+ res.data.msg);
+          that.indexLy = i+1;
+          if(audioId[i]){
+            setTimeout(()=>{
+              that.$wechat.uploadVoice({
+                localId: audioId[i], // 需要上传的音频的本地ID，由stopRecord接口获得
+                isShowProgressTips: 0, // 默认为1，显示进度提示
+                success: (res) => {
+                  let obj = {};
+                  obj.page = i + 1;
+                  obj.sentenceId = bookSource[i]._id;
+                  obj.serverId = res.serverId; // 返回音频的服务器端ID
+                  sentences.push(obj);
+                  if (i < audioId.length-1) {
+                    that.uploadVIndex++;
+                    uploadVoice(that.uploadVIndex);
+                  } 
+                  // console.log('sentences : ' + JSON.stringify(sentences))
+                  // console.log(sentences.length)
+                  if (sentences.length == audioId.length) {
+                    // alert('sentences : ' + JSON.stringify(sentences))
+                    that.$http.post(that.API + '/upload_voice', {
+                      _id: bookID,
+                      sentences: JSON.stringify(sentences)
+                    }).then((res) => {
+                      that.loading = false;
+                      if(res.data.code == 0){
+                        that.$root.$emit('upend');
+                        that.fabuEnd = !that.fabuEnd;
+                        that.$store.commit('bookAudioId',res.data._id);
+                        that.shareUser();
+                        that.goShare();
+                      }else{
+                        alert("code: "+ res.data.code +", msg: "+ res.data.msg);
+                        that.loading = false;
+                      }
+                    }).catch(err=>{
+                      alert('catchErr: '+ err.messege);
+                      that.loading = false;
+                    });
                   }
-                })
-              }
-            },
-            fail: (res) => {
-              alert('微信服务上传出错：'+ res)
-            }
-          })
+                },
+                fail: (res) => {
+                  alert('当前网络较慢，请到良好的网络下，点击生成作品重新次上传！'+i+ JSON.stringify(res));
+                  that.loading = false;
+                }
+              })
+            },300)
+          }else{
+            alert("请修改第"+i+1+"页绘本，再上传");
+            that.loading = false;
+          }
         }
         if(sentences==''){
           uploadVoice(that.uploadVIndex);
@@ -146,6 +160,11 @@
         
   
   
+      },
+      record(){           //记录打卡次数
+          this.$http.post(this.API + '/v/clock_record').then(res => {
+              console.log(res)
+          })
       },
       shareUser(){
 
@@ -181,10 +200,11 @@
                   title: user + '家的宝贝录制了属于自己的英文绘本，口语发音666，快来听听！', // 分享标题
                   link: winURL, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
                   imgUrl: fmImg, // 分享图标
-                  success: function () { 
+                  success:  () => { 
                       // 用户确认分享后执行的回调函数
+                      this.record();
                   },
-                  cancel: function () { 
+                  cancel:  () => { 
                       // 用户取消分享后执行的回调函数
                   }
               });
@@ -195,10 +215,11 @@
                   imgUrl: fmImg, // 分享图标
                   type: '', // 分享类型,music、video或link，不填默认为link
                   dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
-                  success: function () { 
+                  success: () => { 
                       // 用户确认分享后执行的回调函数
+                      this.record();
                   },
-                  cancel: function () { 
+                  cancel: () => { 
                       // 用户取消分享后执行的回调函数
                   }
               });  

@@ -7,7 +7,7 @@
             audio( :src="audioSrc.audio" ref="audio1")
         //-  点击录音
         .audioBtn.audioBtn2.pos_r(ref="audioImg2")
-            a(:class="this.src1&&this.src3? 'active':''" href="javascript:;" @click="audio2" ontouchstart="" )
+            a(:class="[this.src1&&this.src3? 'active':'',  !this.src2? 'recording':'']" href="javascript:;" @click="audio2" ontouchstart="" )
                 img(:src="src2 ? src2Play: src2Playing")     
             
         //-  宝贝读音  
@@ -216,47 +216,6 @@
                 this.guideBox = false;
             }
         },
-<<<<<<< HEAD
-        watch:{
-            src2(val, oldVal){
-                if(val==true&&oldVal==false){
-                    this.$wechat.stopRecord({
-                        success:  (res)=> {
-                            this.localId = res.localId;
-                            let i = this.$store.state.page.curPage-1;
-                            let data ={};
-                            data.index = i;
-                            data.audioId =this.localId;
-                            this.$store.commit('audioId',data);
-                            this.$store.commit('src3',true);
-                        }
-                    });
-                }
-            }
-        },
-        computed:{
-            source1(){
-                return this.src1 == true ? src1Play : src1Playing
-            },
-            source2(){
-                return src2Play
-            },
-            source3(){
-                return this.src3 == "-1" ? src3Playno : this.src3 ? src3Play : src3Playing
-            },
-            src1(){
-                return this.$store.state.src.src1
-            },
-            src2(){
-                return this.$store.state.src.src2
-            },
-            src3(){
-                return this.$store.state.src.src3
-            },
-            firstLearn(){
-                return this.$store.state.user.firstLearn
-            }
-=======
         computed:{
             ...mapState(['audioId','page']),
             ...mapState({
@@ -265,7 +224,6 @@
                 src2: state => state.src.src2,
                 src3: state => state.src.src3,
             })
->>>>>>> dev
         }
     }
 </script>

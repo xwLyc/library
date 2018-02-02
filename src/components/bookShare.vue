@@ -206,7 +206,11 @@
                     }   
                 });
             },
-            
+            record(){           //记录打卡次数
+                this.$http.post(this.API + '/v/clock_record').then(res => {
+                    console.log(res)
+                })
+            },
             setBookSource(index){
                 this.pic = this.URL_WEBSITE+this.bookSource[index].pic;
                 this.content = this.bookSource[index].content;
@@ -230,6 +234,7 @@
                         success: () => { 
                             // 用户确认分享后执行的回调函数
                             // alert('分享成功：' +urlwx)
+                            this.record();
                         },
                         cancel: () => { 
                             // 用户取消分享后执行的回调函数
@@ -241,6 +246,7 @@
                         imgUrl: fmImg, // 分享图标
                         success: () => { 
                             // 用户确认分享后执行的回调函数
+                            this.record();
                         },
                         cancel: () => { 
                             // 用户取消分享后执行的回调函数

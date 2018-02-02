@@ -390,6 +390,10 @@
                 &.active:active{
                     background: #eee;
                 }
+                &.recording{
+                    // background: #fad063;
+                    background: rgba(21, 183, 255, 0.13);
+                }
             }
             p{
                 color: #606060;
@@ -722,7 +726,7 @@
         a{
             color: #0084e1;
         }
-        span{
+        span:nth-child(1){
             display: inline-block;
         }
 

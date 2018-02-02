@@ -22,8 +22,8 @@ Vue.prototype.$http = Axios;
 // Vue.prototype.API = "/api/app/library"; 
 
 //  线上环境
-Vue.prototype.API = "/app/library";     
-Vue.prototype.URL_WEBSITE = "https://test.donut.cn"; 
+Vue.prototype.API = "/api/ds/library";     
+Vue.prototype.URL_WEBSITE = ""; 
 
 
 //图片预加载
